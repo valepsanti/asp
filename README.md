@@ -79,7 +79,7 @@ Ejemplo de uso:
 > \[!WARNING\]
 > El orden de las imagenes es importante. La primera imagen debe ser la izquierda y la segunda la derecha.
 
-- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`.
+- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este comando necesita el "binary"->imagemagick (https://legacy.imagemagick.org/script/download.php)
 
 ```bash
 ./historical_helper.py rotate-crop --interest-points '566 2678  62421 2683  62290 33596  465 33595' --input-path DZB00401800038H026001.tif --output-path 6001.tif
