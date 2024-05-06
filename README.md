@@ -11,7 +11,7 @@
 
 <!-- vim-markdown-toc -->
 
-El presente documento tiene como objetivo guiar al usuario en la creación de Modelos Digitales de Elevación (DEM) a partir de imágenes estéreo utilizando el software de código abierto 'NASA Ames Stereo Pipeline' (ASP).
+El presente documento tiene como objetivo guiar al usuario en la creación de Modelos Digitales de Elevación (DEM) a partir de fotografías/imágenes aéreas estereoscópicas utilizando el software de código abierto 'NASA Ames Stereo Pipeline' (ASP).
 
 La documentación completa del programa se encuentra en [https://stereopipeline.readthedocs.io/en/latest/](https://stereopipeline.readthedocs.io/en/latest/)
 
@@ -60,24 +60,29 @@ ______________________________________________________________________
 
 ### Preparación de las imágenes
 
-- Descarga las imágenes a procesar
+- Descarga las imágenes a procesar:
+     - Ejemplo 8.25 (https://stereopipeline.readthedocs.io/en/latest/examples/historical.html#declassified-satellite-images-kh-7)
+     - Descargar documentos para realizar ejemplo: https://udeconce-my.sharepoint.com/:f:/r/personal/tvejar2020_udec_cl/Documents/ASP_KH-7_Hexagon_Example?csf=1&web=1&e=IxXS0b
 
-- Algunos productos entregan imágenes en varias sub-imagenes (por ej. una misma foto dividida en 2 una partes). En este caso, es necesario unirlas. Para este proceso se pueden usar los ejecutables:
-    - `image_mosaic`: Para fotos genéricas
-    - `dg_mosaic`: Para el caso de imágenes de origen `Digital Globe`
-    - `dem_mosaic`: Para los modelos de elevación
+- Algunos productos entregan imágenes en varias sub-imagenes (por ej. una misma foto dividida en 2 una partes). En este caso, es necesario unirlas.
+     - Para este proceso se pueden usar los ejecutables:
+       - `image_mosaic`: Para fotos genéricas
+       - `dg_mosaic`: Para el caso de imágenes de origen `Digital Globe`
+       - `dem_mosaic`: Para los modelos de elevación (DEMs)
 
 Ejemplo de uso:
 
 ```bash
 ./image_mosaic DZB00401800038H026001_a.tif DZB00401800038H026001_b.tif -o DZB00401800038H026001.tif --ot byte --blend-radius 2000 --overlap-width 10000
+./image_mosaic DZB00401800038H025001_b.tif DZB00401800038H025001_a.tif -o DZB00401800038H025001.tif --ot byte --blend-radius 2000 --overlap-width 10000
 ```
 
 > \[!NOTE\]
 > El comando anterior asume que las imágenes se encuentran en el mismo directorio que el ejecutable. Si no es así, es necesario especificar la ruta completa de las imágenes.
+>  en caso contrario opciones para añadir la ruta:  PATH=$PATH:/ruta/a/tu/directorio
 
 > \[!WARNING\]
-> El orden de las imagenes es importante. La primera imagen debe ser la izquierda y la segunda la derecha.
+> El orden de las imagenes es importante. La primera imagen debe ser la izquierda y la segunda la derecha (para el caso de las imagenes de KH-7 Y KH-9).
 
 - Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este comando necesita el "binary"->imagemagick (https://legacy.imagemagick.org/script/download.php)
 
@@ -87,6 +92,21 @@ Ejemplo de uso:
 
 > [!NOTE]
 > La flag --interest-points son pares de coordenadas (x, y) que definen un rectángulo del área de intéres.
+
+### Este par de DEMs se utilizan en el ejemplo (la siguiente acción une los DEMs)
+```bash
+   n22_e113_1arc_v3.tif
+   n23_e113_1arc_v3.tif
+   dem_mosaic n22_e113_1arc_v3.tif n23_e113_1arc_v3.tif -o srtm_dem
+```
+### Ajustar a un DATUM : WGS84
+```bash
+  ./dem_geoid --geoid egm96 --reverse-adjustment \
+  srtm_dem.tif -o dem
+```
+> \[!WARNING\]
+> Un DEM relativo a un geoide/areoide debe convertirse para que sus alturas sean relativas a un elipsoide. Esto debe hacerse para cualquier DEM de Copernicus y SRTM. Para otros, consulte la documentación > de la fuente del MDE para ver si esta operación es necesaria.
+>
 
 ### Generación de modelos de cámara
 
