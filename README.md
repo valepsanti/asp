@@ -2,7 +2,7 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Instalación](#instalación)
+* [Instalación](ReadMe_Install.md)
 * [Modo de uso](#modo-de-uso)
     * [Preparación de las imágenes](#preparación-de-las-imágenes)
     * [Generación de modelos de cámara](#generación-de-modelos-de-cámara)
