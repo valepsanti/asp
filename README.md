@@ -17,15 +17,17 @@ La documentación completa del programa se encuentra en [https://stereopipeline.
 
 _______________________________________________________________
 
-## Modo de uso
+## MODO DE USO / TUTORIAL EJEM 8.25
 
 ### Preparación de las imágenes
 
 - Descarga las imágenes a procesar:
+  
      - Ejemplo 8.25 (https://stereopipeline.readthedocs.io/en/latest/examples/historical.html#declassified-satellite-images-kh-7)
+       
      - Descargar documentos para realizar ejemplo: https://udeconce-my.sharepoint.com/:f:/r/personal/tvejar2020_udec_cl/Documents/ASP_KH-7_Hexagon_Example?csf=1&web=1&e=IxXS0b
 
-- Algunos productos entregan imágenes en varias sub-imagenes (por ej. una misma foto dividida en 2 una partes). En este caso, es necesario unirlas.
+- Algunos productos entregan imágenes en varias **sub-imagenes** (por ej. una misma **foto dividida en 2 una partes**). En este caso, es necesario unirlas.
      - Para este proceso se pueden usar los ejecutables:
        - `image_mosaic`: Para fotos genéricas
        - `dg_mosaic`: Para el caso de imágenes de origen `Digital Globe`
@@ -40,8 +42,11 @@ Ejemplo de uso:
 
 > \[!NOTE\]
 > El comando anterior asume que las imágenes se encuentran en el mismo directorio que el ejecutable. Si no es así, es necesario especificar la ruta completa de las imágenes.
->  en caso contrario opciones para añadir la ruta:  PATH=$PATH:/ruta/a/tu/directorio
+>  en caso contrario opciones para añadir la ruta:
+> ```bash
+>  PATH=$PATH:/ruta/a/tu/directorio
 
+> ```
 > \[!WARNING\]
 > El orden de las imagenes es importante. La primera imagen debe ser la izquierda y la segunda la derecha (para el caso de las imagenes de KH-7 Y KH-9).
 
