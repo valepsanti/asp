@@ -38,3 +38,7 @@ cd StereoPipeline-3.4.0-alpha-2024-04-13-x86_64-Linux/bin
 ______________________________________________________________________
 
 ![comprobar_instalacion](./cli_gifs/extract_and_check.gif)
+
+_______________________________________________________________________
+
+##[Modo de uso](README.md)
