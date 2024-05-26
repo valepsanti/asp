@@ -17,8 +17,6 @@ La documentación completa del programa se encuentra en [https://stereopipeline.
 
 _______________________________________________________________
 
-![comprobar_instalacion](./cli_gifs/extract_and_check.gif)
-
 ## Modo de uso
 
 ### Preparación de las imágenes
