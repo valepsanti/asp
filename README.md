@@ -77,8 +77,8 @@ ________________________________________________________________________________
 
 
 ### Para imagenes con borde:
-- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este script necesita el "binary"->imagemagick (https://legacy.imagemagick.org/script/download.php). Para instalando se debe usar **ANACONDA**.
-- 
+- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este script necesita el "binary" imagemagick (https://legacy.imagemagick.org/script/download.php). Para instalando se debe usar **ANACONDA**.
+  
 > [!NOTE]
 > A veces las imágenes de entrada pueden ser tan grandes, que las herramientas ASP o el programa auxiliar de conversión ImageMagick fallarán, o la máquina se quedará sin memoria.
 > Se sugiere redimensionar las imágenes a un tamaño más manejable, al menos para el procesamiento inicial.
