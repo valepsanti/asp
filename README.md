@@ -16,8 +16,8 @@ El presente documento tiene como objetivo guiar al usuario en la creación de Mo
 La documentación completa del programa se encuentra en [https://stereopipeline.readthedocs.io/en/latest/](https://stereopipeline.readthedocs.io/en/latest/)
 
 __________________________________________________________________________________________________________________________________
-
 ## MODO DE USO / TUTORIAL EJEM 8.25
+__________________________________________________________________________________________________________________________________
 
 ### Preparación de las imágenes
 
@@ -52,6 +52,8 @@ cd /ruta/stereopipeline/bin
 
 > \[!WARNING\]
 > El orden de las imagenes es importante. La primera imagen debe ser la izquierda y la segunda la derecha (para el caso de las imagenes de KH-7 Y KH-9).
+
+__________________________________________________________________________________________________________________________________
 
 ### Este par de DEMs se utilizan en el ejemplo (la siguiente acción une los DEMs)
 ```bash
