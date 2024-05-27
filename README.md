@@ -36,24 +36,42 @@ _______________________________________________________________
 Ejemplo de uso:
 
 ```bash
+cd /ruta/stereopipeline/bin
 ./image_mosaic DZB00401800038H026001_a.tif DZB00401800038H026001_b.tif -o DZB00401800038H026001.tif --ot byte --blend-radius 2000 --overlap-width 10000
 ./image_mosaic DZB00401800038H025001_b.tif DZB00401800038H025001_a.tif -o DZB00401800038H025001.tif --ot byte --blend-radius 2000 --overlap-width 10000
 ```
 
 > \[!NOTE\]
 > El comando anterior asume que las imágenes se encuentran en el mismo directorio que el ejecutable. Si no es así, es necesario especificar la ruta completa de las imágenes.
->  en caso contrario opciones para añadir la ruta:
+>  opciones para añadir la ruta:
+> 
 > ```bash
->  PATH=$PATH:/ruta/a/tu/directorio
-
+> ./image_mosaic /home/usuario/ruta/CARPETA/DZB00401800038H026001_a.tif /home/usuario/ruta/CARPETA/DZB00401800038H026001_b.tif -o /home/usuario/ruta/CARPETA DZB00401800038H026001.tif --ot byte --blend-radius 2000 --overlap-width 10000
+> ./image_mosaic /home/usuario/ruta/CARPETA/DZB00401800038H025001_b.tif /home/usuario/ruta/CARPETA/DZB00401800038H025001_a.tif -o /home/usuario/ruta/CARPETA/DZB00401800038H025001.tif --ot byte --blend-radius 2000 --overlap-width 10000
 > ```
+
 > \[!WARNING\]
 > El orden de las imagenes es importante. La primera imagen debe ser la izquierda y la segunda la derecha (para el caso de las imagenes de KH-7 Y KH-9).
 
-- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este comando necesita el "binary"->imagemagick (https://legacy.imagemagick.org/script/download.php)
+### Para imagenes con borde:
+- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este script necesita el "binary"->imagemagick (https://legacy.imagemagick.org/script/download.php). Para instalando se debe usar ANACONDA.
+> ```bash
+> conda create -n imagemagick -c conda-forge imagemagick -y
+> ```
+_______________________________________________________________________________________________________
 
-```bash
-./historical_helper.py rotate-crop --interest-points '566 2678  62421 2683  62290 33596  465 33595' --input-path DZB00401800038H026001.tif --output-path 6001.tif
+> \[!WARNING\]
+> Primero hay que tener instalado ANACONDA : [Revisar documentación actualizada de ANACONDA](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
+> ```bash
+>mkdir -p ~/miniconda3
+>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+>bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+>rm -rf ~/miniconda3/miniconda.sh
+>~/miniconda3/bin/conda init bash
+>```
+
+./historical_helper.py rotate-crop --convert-path $HOME/miniconda3/envs/imagemagick/bin/convert
+--interest-points '566 2678  62421 2683  62290 33596  465 33595' --input-path DZB00401800038H026001.tif --output-path 6001.tif
 ```
 
 > [!NOTE]
