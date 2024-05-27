@@ -15,7 +15,7 @@ El presente documento tiene como objetivo guiar al usuario en la creación de Mo
 
 La documentación completa del programa se encuentra en [https://stereopipeline.readthedocs.io/en/latest/](https://stereopipeline.readthedocs.io/en/latest/)
 
-_______________________________________________________________
+__________________________________________________________________________________________________________________________________
 
 ## MODO DE USO / TUTORIAL EJEM 8.25
 
@@ -53,15 +53,53 @@ cd /ruta/stereopipeline/bin
 > \[!WARNING\]
 > El orden de las imagenes es importante. La primera imagen debe ser la izquierda y la segunda la derecha (para el caso de las imagenes de KH-7 Y KH-9).
 
+### Este par de DEMs se utilizan en el ejemplo (la siguiente acción une los DEMs)
+```bash
+   n22_e113_1arc_v3.tif
+   n23_e113_1arc_v3.tif
+   dem_mosaic n22_e113_1arc_v3.tif n23_e113_1arc_v3.tif -o srtm_dem
+```
+
+_________________________________________________________________________________________________________________________________________
+
+### Ajustar a un DATUM : WGS84
+```bash
+  ./dem_geoid --geoid egm96 --reverse-adjustment \
+  srtm_dem.tif -o dem
+```
+> \[!WARNING\]
+> Un DEM relativo a un geoide/areoide debe convertirse para que sus alturas sean relativas a un elipsoide. Esto debe hacerse para cualquier DEM de Copernicus y SRTM. Para otros, consulte la documentación > de la fuente del MDE para ver si esta operación es necesaria.
+
+
+_________________________________________________________________________________________________________________________________________
+
+
 ### Para imagenes con borde:
-- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este script necesita el "binary"->imagemagick (https://legacy.imagemagick.org/script/download.php). Para instalando se debe usar ANACONDA.
+- Puede ser necesario recortar las imágenes para eliminar bordes o áreas no deseadas. Para ello se puede usar el programa `./historical_helper.py`. Este script necesita el "binary"->imagemagick (https://legacy.imagemagick.org/script/download.php). Para instalando se debe usar **ANACONDA**.
+- 
+> [!NOTE]
+> A veces las imágenes de entrada pueden ser tan grandes, que las herramientas ASP o el programa auxiliar de conversión ImageMagick fallarán, o la máquina se quedará sin memoria.
+> Se sugiere redimensionar las imágenes a un tamaño más manejable, al menos para el procesamiento inicial.
+> Esto puede hacerse con **gdal_translate**. como sigue:
+> 
 > ```bash
-> conda create -n imagemagick -c conda-forge imagemagick -y
+> gdal_translate -outsize 25% 25% -r average input.tif output.tif
 > ```
-_______________________________________________________________________________________________________
+> La flag--> **--interest-points** , son pares de coordenadas (x, y) que definen un rectángulo del área de intéres.
+> PERO... Hay que considerar que los **--interest-points** tienen que re-escalarse según el % de ajuste en dimensiones.
+  
+```bash
+./historical_helper.py rotate-crop --convert-path $HOME/miniconda3/envs/imagemagick/bin/convert
+--interest-points '566 2678  62421 2683  62290 33596  465 33595' --input-path DZB00401800038H026001.tif --output-path 6001.tif
+```
 
 > \[!WARNING\]
 > Primero hay que tener instalado ANACONDA : [Revisar documentación actualizada de ANACONDA](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
+> 
+> ```bash
+> conda create -n imagemagick -c conda-forge imagemagick -y
+> ```
+> 
 > ```bash
 >mkdir -p ~/miniconda3
 >wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
@@ -70,36 +108,25 @@ ________________________________________________________________________________
 >~/miniconda3/bin/conda init bash
 >```
 
-./historical_helper.py rotate-crop --convert-path $HOME/miniconda3/envs/imagemagick/bin/convert
---interest-points '566 2678  62421 2683  62290 33596  465 33595' --input-path DZB00401800038H026001.tif --output-path 6001.tif
-```
+_________________________________________________________________________________________________________________________________________
 
-> [!NOTE]
-> La flag --interest-points son pares de coordenadas (x, y) que definen un rectángulo del área de intéres.
-
-### Este par de DEMs se utilizan en el ejemplo (la siguiente acción une los DEMs)
-```bash
-   n22_e113_1arc_v3.tif
-   n23_e113_1arc_v3.tif
-   dem_mosaic n22_e113_1arc_v3.tif n23_e113_1arc_v3.tif -o srtm_dem
-```
-### Ajustar a un DATUM : WGS84
-```bash
-  ./dem_geoid --geoid egm96 --reverse-adjustment \
-  srtm_dem.tif -o dem
-```
-> \[!WARNING\]
-> Un DEM relativo a un geoide/areoide debe convertirse para que sus alturas sean relativas a un elipsoide. Esto debe hacerse para cualquier DEM de Copernicus y SRTM. Para otros, consulte la documentación > de la fuente del MDE para ver si esta operación es necesaria.
->
-
-### Generación de modelos de cámara
+### Generación de modelos de cámara 
+#### (EJEMPLO CON 5001.TIF)
 
 ```bash
-../StereoPipeline/bin/cam_gen --pixel-pitch 7.0e-06 --focal-length 1.96                             \
+cd /ruta/stereopipeline/bin
+./cam_gen --pixel-pitch 7.0e-06 --focal-length 1.96                             \
   --optical-center 0.2082535 0.1082305                                        \
   --lon-lat-values '113.25 22.882 113.315 23.315 113.6 23.282 113.532 22.85'  \
   5001.tif --reference-dem srtm_dem.tif --refine-camera -o 5001.tsai
 ```
+> \[!NOTE\]
+> Para entender mejor el comando **-cam_gen** aplicar:
+> 
+> ```bash
+> ./cam_gen --help
+>  ```
+> 
 
 Este procedimiento crea un archivo modelo de camara que se ve de la siguiente manera:
 
@@ -125,6 +152,8 @@ Si se desea, se puede evaluar el modelo de camarar creando un `kml` que mostrar�
 camera_footprint 5001.tif  5001.tsai  --datum  WGS_1984 --quick \
   --output-kml  5001_footprint.kml -t nadirpinhole --dem-file srtm_dem.tif
 ```
+_________________________________________________________________________________________________________________________________________
+
 
 Es buena idea experimentar con copias de las imágenes de entrada antes de ejecutar el procesamiento con las imágenes de tamaño completo.
 Para esto se puede usar el ejecutable `stereo_gui`.
