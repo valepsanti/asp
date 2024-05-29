@@ -70,7 +70,7 @@ ________________________________________________________________________________
   srtm_dem.tif -o dem
 ```
 > \[!WARNING\]
-> Un DEM relativo a un geoide/areoide debe convertirse para que sus alturas sean relativas a un elipsoide. Esto debe hacerse para cualquier DEM de Copernicus y SRTM. Para otros, consulte la documentación > de la fuente del MDE para ver si esta operación es necesaria.
+> Un DEM relativo a un geoide/areoide debe convertirse para que sus alturas sean relativas a un elipsoide. Esto debe hacerse para cualquier DEM de Copernicus y SRTM. Para otros, consulte la documentación > de la fuente del DEM para ver si esta operación es necesaria.
 
 
 _________________________________________________________________________________________________________________________________________
